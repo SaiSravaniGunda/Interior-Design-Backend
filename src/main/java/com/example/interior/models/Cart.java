@@ -1,6 +1,7 @@
 package com.example.interior.models;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -15,17 +16,20 @@ public class Cart {
 
     @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User user; // Each user has one cart
+    private User user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore 
-    private List<CartItem> cartItems;
+    @JsonIgnore
+    private List<CartItem> cartItems = new ArrayList<>(); // ✅ Initialize here
 
-    // Constructors
-    public Cart() {}
+    // ✅ Constructors
+    public Cart() {
+        this.cartItems = new ArrayList<>();
+    }
 
     public Cart(User user) {
         this.user = user;
+        this.cartItems = new ArrayList<>();
     }
 
     // Getters and Setters
